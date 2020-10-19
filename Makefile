@@ -10,15 +10,20 @@
 #*****************************************************************************
 
 #------------------------------------------------------------------------------
-# <Put a Description Here>
+# Simple make file for MultiTarget Build System
 #
 # Use: make [TARGET] [PLATFORM-OVERRIDES]
 #
 # Build Targets:
-#      <Put a description of the supported targets here>
+#      <FILE>.i - Build <FILE>.i Preprocessed file
+#      <FILE>.asm - Build <FILE>.asm Assembly file, and also build an executable c1m2.out and dump its assemply code
+#      <FILE>.o - Build <FILE>.o Object file
+#      compile-all - Compiles all source files into object files but does not link them into an executable
+#      Build - Compile all source files and links them into an executable c1m2.out
+#      Clean - Removes all generated files
 #
 # Platform Overrides:
-#      <Put a description of the supported Overrides here
+#      PLATFORM - (MSP432, HOST)
 #
 #------------------------------------------------------------------------------
 include sources.mk
@@ -67,22 +72,18 @@ endif
 
 %.o: %.c 
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $^ 
-	
 
 .PHONY: compile-all
 compile-all: $(SOURCES)
 	make $(OBJECTS)
 
-
 .PHONY: Build
-Build: $(OBJECTS) $(SOURCES)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o c1m2.out $(SOURCES)
+Build: $(SOURCES) 
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o c1m2.out $^
 
 .PHONY: Clean
 Clean: 
 	 rm -f *.i *.asm *.o *.out *.map
-
-
 
 
 
