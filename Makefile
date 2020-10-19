@@ -31,8 +31,7 @@ include sources.mk
 OBJECTS:= $(SOURCES:.c=.o)
 
 # Platform Overrides
-Platform = HOST
-ifeq ( $(PLATFORM), MSP432 )
+ifeq ($(PLATFORM),MSP432)
 
 # Architectures Specific Flags
 LINKER_FILE = -T msp432p401r.lds
@@ -43,7 +42,7 @@ SPECS = --specs=nosys.specs
 # Compiler Flags and Defines
 CC = arm-none-eabi-gcc
 LD = arm-none-eabi-ld
-LDFLAGS = -Wl,-Map=c1m2.map -Wl$(LINKER_FILE)
+LDFLAGS = -Wl,-Map=c1m2.map -Wl,$(LINKER_FILE)
 CFLAGS = -Wall -Werror -g -O0 -std=c99 $(CPU) $(ARCH) $(SPECS) $(INCLUDES)
 CPPFLAGS = -DMSP432
 
@@ -57,12 +56,9 @@ LDFLAGS = -Wl,-Map=c1m2.map
 CFLAGS = -Wall -Werror -g -O0 -std=c99 $(INCLUDES)
 CPPFLAGS = -DHOST
 
-
 endif
 
-
 %.i: %.c
-	make Build 
 	$(CC) $(CPPFLAGS) $(INCLUDES) -E -o $@ $^
 
 %.asm: %.c
